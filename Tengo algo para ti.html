@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tengo algo para ti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f1e9;--bg2:#ece4d6;--ink:#232323;--soft:#6e665b;--card:#fffdf8;--rose:#d9531e;--rose2:#f2994a;--gold:#f4b860;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15161a;--bg2:#22232a;--ink:#f3efe8;--soft:#b3ab9d;--card:#1f2026}}
+:root[data-theme="dark"]{--bg:#15161a;--bg2:#22232a;--ink:#f3efe8;--soft:#b3ab9d;--card:#1f2026}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);font-family:'Playfair Display',Georgia,serif;overflow-x:hidden}
+section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 22px;text-align:center;position:relative}
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.hearts span{position:absolute;bottom:-40px;opacity:.22;color:var(--rose2);animation:up linear infinite}
+@keyframes up{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+section,.hide{position:relative;z-index:1}
+.hide{display:none}.hide.on{display:block}
+.beat{font-size:92px;animation:beat 1.2s infinite;filter:drop-shadow(0 8px 18px rgba(0,0,0,.25))}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+h1,h2{font-weight:600;margin:.3em 0}
+h1{font-size:clamp(34px,8vw,64px)}
+h2{font-size:clamp(28px,6vw,46px)}
+.script{font-family:'Caveat','Segoe Script',cursive;font-size:clamp(24px,5vw,32px);color:var(--soft)}
+.btn{font:inherit;border:0;cursor:pointer;border-radius:999px;padding:14px 34px;font-size:20px;color:#fff;background:linear-gradient(135deg,var(--rose),var(--rose2));box-shadow:0 10px 26px rgba(217,83,30,.35);transition:transform .2s}
+.btn:hover{transform:scale(1.06)}
+.letter{max-width:620px;background:var(--card);padding:44px 34px;border-radius:6px;box-shadow:0 20px 50px rgba(0,0,0,.14);text-align:left;border-top:6px solid var(--rose2);transform:rotate(-.6deg)}
+.letter p{font-family:'Caveat','Segoe Script',cursive;font-size:clamp(23px,4.6vw,29px);line-height:1.45;margin:0 0 .9em}
+.letter .sign{text-align:right;color:var(--rose);font-size:32px;margin:0}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s,transform .9s}
+.rv.in{opacity:1;transform:none}
+.gallery{display:flex;flex-direction:column;gap:56px;align-items:center;margin-top:28px;width:100%}
+.pol{background:#fff;padding:14px 14px 18px;width:min(86vw,340px);border-radius:4px;box-shadow:0 16px 36px rgba(0,0,0,.22)}
+.pol:nth-child(odd){transform:rotate(-3deg)}.pol:nth-child(even){transform:rotate(2.5deg)}
+.pol.rv.in:nth-child(odd){transform:rotate(-3deg)}.pol.rv.in:nth-child(even){transform:rotate(2.5deg)}
+.pol .img{aspect-ratio:1/1;border-radius:2px;background:repeating-linear-gradient(45deg,#ebe4d6,#ebe4d6 12px,#dfd6c3 12px,#dfd6c3 24px);display:flex;align-items:center;justify-content:center;color:#7d725f;font-family:'Caveat',cursive;font-size:26px;overflow:hidden}
+.pol img{width:100%;height:100%;object-fit:cover}
+.pol p{font-family:'Caveat','Segoe Script',cursive;color:#3a342c;font-size:24px;margin:12px 0 0}
+.ask{gap:10px}
+.q{font-size:clamp(34px,8vw,62px);line-height:1.15;max-width:700px;margin:0 0 30px;background:linear-gradient(90deg,var(--rose),var(--gold),var(--rose));background-size:200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 4s linear infinite}
+@keyframes sh{to{background-position:200%}}
+.choices{display:flex;flex-wrap:wrap;gap:34px;align-items:center;justify-content:center;min-height:200px}
+#yes{font-size:34px;padding:22px 58px;font-weight:600;animation:pulse 1.3s infinite;transition:transform .3s,font-size .3s;background:linear-gradient(135deg,#ff4d00,#ffb300,#ff4d00);background-size:200%}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,120,0,.7),0 12px 30px rgba(255,90,0,.45)}50%{box-shadow:0 0 0 24px rgba(255,120,0,0),0 12px 30px rgba(255,90,0,.45)}}
+#no{font:inherit;background:none;border:0;color:var(--soft);font-size:17px;text-decoration:line-through;text-decoration-thickness:3px;text-decoration-color:var(--rose);cursor:pointer;opacity:.85;transition:transform .25s,font-size .25s;max-width:260px}
+#fin{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,var(--bg2),var(--bg));text-align:center;padding:24px}
+#fin.on{display:flex}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:60;width:100%;height:100%}
+</style>
+</head>
+<body>
+<div class="hearts" id="hearts"></div>
+<canvas id="cv"></canvas>
+
+<section id="cover">
+  <div class="beat">✉️</div>
+  <h1>Tengo algo para ti…</h1>
+  <p class="script">Es solo para ti, [Su nombre]. Tómate tu tiempo.</p>
+  <button class="btn" id="open" style="margin-top:22px">Abrir ✨</button>
+</section>
+
+<div class="hide" id="main">
+  <section id="letterSec">
+    <p class="script rv">Una carta, para ti</p>
+    <article class="letter rv">
+      <p>Querida [Su nombre],</p>
+      <p>[Aquí va el primer párrafo: cómo te sientes cuando estás con ella, qué fue lo primero que te gustó.]</p>
+      <p>[Segundo párrafo: algo que admires de ella, algún momento que recuerdes con cariño.]</p>
+      <p>[Tercer párrafo: lo que quieres decirle de verdad, sin filtros.]</p>
+      <p class="sign">— [Tu nombre]</p>
+    </article>
+    <p class="script rv" style="margin-top:30px">Sigue bajando, hay más… ↓</p>
+  </section>
+
+  <section id="fotos">
+    <h2 class="rv">Nuestros momentos</h2>
+    <p class="script rv">Pequeños recuerdos que guardo conmigo</p>
+    <div class="gallery" id="gal"></div>
+  </section>
+
+  <section class="ask" id="ask">
+    <p class="script rv">Y después de todo esto…</p>
+    <h2 class="q rv">[Su nombre], ¿quieres salir conmigo?</h2>
+    <div class="choices">
+      <button class="btn" id="yes">¡SÍ!</button>
+      <button id="no">No</button>
+    </div>
+  </section>
+</div>
+
+<div id="fin">
+  <div class="beat">🎉</div>
+  <h1>¡LO SABÍA!</h1>
+  <p class="script" style="max-width:520px">[Escribe aquí tu mensaje final: dónde quedáis, qué plan tienes…]</p>
+</div>
+
+<script>
+/* ====== EDITA AQUÍ TUS FOTOS Y FRASES ======
+   src: foto (vacío = muestra el hueco). txt: frase bajo la foto. */
+const FOTOS=[
+  {src:"",txt:"El día que nos conocimos"},
+  {src:"",txt:"Nuestro mejor plan"},
+  {src:"",txt:"Esa sonrisa..."},
+  {src:"",txt:"Mi foto favorita de los dos"}
+];
+const NOES=["¿Seguro?","Piénsalo mejor 🥺","Mira que me pongo triste","¿Y si lo intentas otra vez?","Ese botón está roto 🔧","Venga, que te invito a cenar 🍕","No me hagas el vacío 😭","Última oportunidad… (es mentira)","Va, di que sí 😏","Te lo pido por favor 🙏"];
+
+const $=s=>document.querySelector(s);
+const hs=$('#hearts');
+for(let i=0;i<22;i++){const s=document.createElement('span');s.textContent='●';s.style.left=Math.random()*100+'%';s.style.fontSize=(5+Math.random()*9)+'px';s.style.animationDuration=(9+Math.random()*10)+'s';s.style.animationDelay=(-Math.random()*14)+'s';hs.appendChild(s)}
+
+const gal=$('#gal');
+FOTOS.forEach(f=>{const d=document.createElement('div');d.className='pol rv';
+d.innerHTML='<div class="img">'+(f.src?'<img alt="" src="'+f.src+'">':'📷 Tu foto aquí')+'</div><p></p>';
+d.querySelector('p').textContent=f.txt;gal.appendChild(d)});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+function watch(){document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el))}
+
+$('#open').onclick=()=>{$('#main').classList.add('on');watch();burst(30);setTimeout(()=>$('#letterSec').scrollIntoView({behavior:'smooth'}),80)};
+
+let n=0,scale=1;
+const no=$('#no'),yes=$('#yes');
+function dodge(){
+  no.textContent=NOES[n%NOES.length];n++;
+  const x=(Math.random()-.5)*Math.min(innerWidth-120,240),y=(Math.random()-.5)*90;
+  no.style.transform='translate('+x+'px,'+y+'px) rotate('+((Math.random()-.5)*20)+'deg)';
+  scale=Math.min(scale+.14,2.1);
+  yes.style.transform='scale('+scale+')';
+  no.style.fontSize=Math.max(11,17-n)+'px';
+}
+no.addEventListener('mouseenter',dodge);
+no.addEventListener('click',dodge);
+no.addEventListener('touchstart',e=>{e.preventDefault();dodge()},{passive:false});
+
+yes.onclick=()=>{$('#fin').classList.add('on');burst(160);setInterval(()=>burst(25),1400)};
+
+/* confeti de corazones */
+const cv=$('#cv'),cx=cv.getContext('2d');let P=[];
+function size(){cv.width=innerWidth;cv.height=innerHeight}size();addEventListener('resize',size);
+function burst(k){for(let i=0;i<k;i++)P.push({x:innerWidth/2+(Math.random()-.5)*innerWidth*.6,y:innerHeight*.6,vx:(Math.random()-.5)*12,vy:-Math.random()*16-4,s:14+Math.random()*22,e:['🎉','✨','🎊','⭐','🎉','✨'][i%6],r:Math.random()*6,l:0})}
+(function loop(){cx.clearRect(0,0,cv.width,cv.height);P=P.filter(p=>p.y<cv.height+40&&p.l<260);
+P.forEach(p=>{p.vy+=.28;p.x+=p.vx;p.y+=p.vy;p.l++;cx.font=p.s+'px serif';cx.save();cx.translate(p.x,p.y);cx.rotate(p.r+p.l*.03);cx.fillText(p.e,0,0);cx.restore()});requestAnimationFrame(loop)})();
+</script>
+</body>
+</html>
