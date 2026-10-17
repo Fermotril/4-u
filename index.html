@@ -117,7 +117,7 @@ d.querySelector('p').textContent=f.txt;gal.appendChild(d)});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
 function watch(){document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el))}
 
-$('#open').onclick=()=>{$('#main').classList.add('on');watch();burst(30);setTimeout(()=>$('#letterSec').scrollIntoView({behavior:'smooth'}),80)};
+$('#open').onclick=()=>{$('#main').classList.add('on');watch();burst(30);setTimeout(()=>$('#fotos').scrollIntoView({behavior:'smooth'}),80)};
 
 let n=0,scale=1;
 const no=$('#no'),yes=$('#yes');
